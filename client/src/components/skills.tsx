@@ -1,4 +1,6 @@
-import { Users, Laptop, Handshake, Award } from "lucide-react";
+import { Users, Laptop, Handshake, Award, Eye } from "lucide-react";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Skills() {
   const skillCategories = [
@@ -35,14 +37,58 @@ export default function Skills() {
   ];
 
   const certifications = [
-    { name: "First Aid", icon: "🚑" },
-    { name: "Fire Training", icon: "🔥" },
-    { name: "Food Safety Supervisor", icon: "🍽️" },
-    { name: "ServSafe International", icon: "🏆" },
-    { name: "BMT / Shift Running Excellence", icon: "⭐" },
-    { name: "Foundation Of Shift Management", icon: "🎯" },
-    { name: "Training & Mentoring", icon: "👥" }
+    { 
+      name: "First Aid", 
+      icon: "🚑", 
+      hasDocument: true, 
+      documentPath: "/attached_assets/Arbin Maharjan - FA_1751765945515.pdf",
+      description: "Provide cardiopulmonary resuscitation and First Aid"
+    },
+    { 
+      name: "Fire Training", 
+      icon: "🔥", 
+      hasDocument: true, 
+      documentPath: "/attached_assets/Maharjan_Arbin_CSE_9332432_1751765945517.pdf",
+      description: "Confine small emergencies in a facility"
+    },
+    { 
+      name: "Food Safety Supervisor", 
+      icon: "🍽️", 
+      hasDocument: true, 
+      documentPath: "/attached_assets/Arbin Maharjan FSS Certificate_1751765945516.pdf",
+      description: "Food Safety Supervisor Certificate"
+    },
+    { 
+      name: "ServSafe International", 
+      icon: "🏆", 
+      hasDocument: true, 
+      documentPath: "/attached_assets/ServSafe_1751765945517.pdf",
+      description: "Food Safety Online Course Examination"
+    },
+    { 
+      name: "Shift Running Excellence", 
+      icon: "⭐", 
+      hasDocument: true, 
+      documentPath: "/attached_assets/SRX Workshop Certificate - Arbin Maharjan_1751765945517.pdf",
+      description: "BMT / Shift Running Excellence (SRX)"
+    },
+    { 
+      name: "Foundation Of Shift Management", 
+      icon: "🎯", 
+      hasDocument: true, 
+      documentPath: "/attached_assets/Arbin Maharjan Foundations_Certificate_1751765945516.pdf",
+      description: "Foundations of Shift Management Training"
+    },
+    { 
+      name: "Training & Mentoring", 
+      icon: "👥", 
+      hasDocument: true, 
+      documentPath: "/attached_assets/Arbin Maharjan T.E.A.M. Certificate_1751765945516.png",
+      description: "Training, Empowering, And Mentoring (T.E.A.M)"
+    }
   ];
+
+  const [selectedCertificate, setSelectedCertificate] = useState<any>(null);
 
   return (
     <section id="skills" className="py-20 bg-gray-50">
@@ -86,9 +132,53 @@ export default function Skills() {
           <h3 className="text-2xl font-bold text-secondary text-center mb-8">Professional Certifications</h3>
           <div className="grid md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {certifications.map((cert, index) => (
-              <div key={index} className="bg-white rounded-lg p-4 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div key={index} className="bg-white rounded-lg p-4 text-center shadow-sm hover:shadow-md transition-shadow relative group">
                 <div className="text-2xl mb-2">{cert.icon}</div>
-                <h4 className="font-semibold text-secondary text-sm">{cert.name}</h4>
+                <h4 className="font-semibold text-secondary text-sm mb-2">{cert.name}</h4>
+                {cert.hasDocument && (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className="absolute top-2 right-2 bg-primary text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Eye size={14} />
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl max-h-[80vh] overflow-auto">
+                      <DialogHeader>
+                        <DialogTitle className="text-xl font-bold text-secondary">
+                          {cert.name} Certificate
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div className="mt-4">
+                        <p className="text-gray-600 mb-4">{cert.description}</p>
+                        <div className="flex justify-center">
+                          {cert.documentPath.endsWith('.png') ? (
+                            <img 
+                              src={cert.documentPath} 
+                              alt={`${cert.name} Certificate`}
+                              className="max-w-full h-auto rounded-lg shadow-lg"
+                            />
+                          ) : (
+                            <iframe
+                              src={cert.documentPath}
+                              className="w-full h-96 border rounded-lg"
+                              title={`${cert.name} Certificate`}
+                            />
+                          )}
+                        </div>
+                        <div className="mt-4 text-center">
+                          <a 
+                            href={cert.documentPath} 
+                            download={`${cert.name.replace(/\s+/g, '_')}_Certificate`}
+                            className="inline-flex items-center bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                          >
+                            <Award className="mr-2 h-4 w-4" />
+                            Download Certificate
+                          </a>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </div>
             ))}
           </div>

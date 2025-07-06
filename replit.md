@@ -132,6 +132,7 @@ This is a modern full-stack web application built as a professional portfolio fo
 
 ## Changelog
 - July 06, 2025. Initial setup
+- July 06, 2025. Added interactive certificate viewing with modal dialogs and downloadable certificates
 
 ## User Preferences
 

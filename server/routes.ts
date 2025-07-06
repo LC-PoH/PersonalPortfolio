@@ -74,6 +74,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Serve certificate files
+  app.get("/attached_assets/:filename", (req, res) => {
+    try {
+      const { filename } = req.params;
+      const filePath = path.join(process.cwd(), "attached_assets", filename);
+      
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({
+          message: "Certificate file not found"
+        });
+      }
+      
+      // Set appropriate headers based on file type
+      if (filename.endsWith('.pdf')) {
+        res.setHeader('Content-Type', 'application/pdf');
+      } else if (filename.endsWith('.png')) {
+        res.setHeader('Content-Type', 'image/png');
+      } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+        res.setHeader('Content-Type', 'image/jpeg');
+      }
+      
+      res.sendFile(filePath);
+    } catch (error) {
+      console.error("Error serving certificate file:", error);
+      res.status(500).json({
+        message: "Internal server error"
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
