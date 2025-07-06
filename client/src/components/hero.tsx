@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Mail, Download, User } from "lucide-react";
+import { Mail, Download } from "lucide-react";
+import profilePhoto from "@assets/397871372_1022138495599817_94860_1751767626715.jpg";
 
 export default function Hero() {
   const scrollToContact = () => {
@@ -57,8 +58,12 @@ export default function Hero() {
           
           <div className="relative">
             <div className="relative bg-gradient-to-br from-primary to-accent rounded-2xl p-8 text-white text-center">
-              <div className="w-32 h-32 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <User className="text-4xl" size={64} />
+              <div className="w-40 h-40 mx-auto mb-4 relative">
+                <img 
+                  src={profilePhoto} 
+                  alt="Arbin Maharjan" 
+                  className="w-full h-full object-cover rounded-full border-4 border-white/20 shadow-xl"
+                />
               </div>
               <h3 className="text-xl font-semibold mb-2">Professional Profile</h3>
               <p className="text-white/90">Queanbeyan, ACT</p>
