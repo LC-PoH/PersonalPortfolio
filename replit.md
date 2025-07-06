@@ -137,6 +137,7 @@ This is a modern full-stack web application built as a professional portfolio fo
 - July 06, 2025. Initial setup
 - July 06, 2025. Added interactive certificate viewing with modal dialogs and downloadable certificates
 - July 06, 2025. Integrated PostgreSQL database with contact message storage and proper schema validation
+- July 06, 2025. Updated LinkedIn and GitHub profile links throughout the portfolio
 
 ## User Preferences
 

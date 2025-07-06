@@ -1,4 +1,4 @@
-import { Mail, Phone, Linkedin } from "lucide-react";
+import { Mail, Phone, Linkedin, Github } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -25,11 +25,22 @@ export default function Footer() {
               <Phone size={24} />
             </a>
             <a 
-              href="#" 
+              href="https://www.linkedin.com/in/arbin-m-1572621a6/" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-300 hover:text-white transition-colors"
               aria-label="LinkedIn"
             >
               <Linkedin size={24} />
+            </a>
+            <a 
+              href="https://github.com/LC-PoH" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-300 hover:text-white transition-colors"
+              aria-label="GitHub"
+            >
+              <Github size={24} />
             </a>
           </div>
           <div className="border-t border-gray-700 pt-8">

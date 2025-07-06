@@ -95,19 +95,19 @@ export default function Contact() {
   const socialLinks = [
     {
       icon: Linkedin,
-      href: "#",
+      href: "https://www.linkedin.com/in/arbin-m-1572621a6/",
       label: "LinkedIn",
       color: "bg-blue-600 hover:bg-blue-700"
     },
     {
       icon: Github,
-      href: "#",
+      href: "https://github.com/LC-PoH",
       label: "GitHub",
       color: "bg-gray-800 hover:bg-gray-900"
     },
     {
       icon: Download,
-      href: "#",
+      href: "/api/resume/download",
       label: "Resume",
       color: "bg-primary hover:bg-blue-700"
     }
@@ -160,6 +160,8 @@ export default function Contact() {
                   <a
                     key={index}
                     href={link.href}
+                    target={link.href.startsWith('http') ? "_blank" : "_self"}
+                    rel={link.href.startsWith('http') ? "noopener noreferrer" : undefined}
                     className={`w-12 h-12 rounded-full flex items-center justify-center text-white transition-colors ${link.color}`}
                     aria-label={link.label}
                   >
