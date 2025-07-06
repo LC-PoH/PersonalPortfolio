@@ -2,45 +2,44 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import path from "path";
 import fs from "fs";
+import { storage } from "./storage";
+import { insertContactMessageSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form endpoint
   app.post("/api/contact", async (req, res) => {
     try {
-      const { firstName, lastName, email, subject, message } = req.body;
+      // Validate request body using Zod schema
+      const validatedData = insertContactMessageSchema.parse(req.body);
       
-      // Validate required fields
-      if (!firstName || !lastName || !email || !subject || !message) {
-        return res.status(400).json({ 
-          message: "All fields are required" 
-        });
-      }
+      // Save message to database
+      const savedMessage = await storage.createContactMessage(validatedData);
       
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({ 
-          message: "Invalid email format" 
-        });
-      }
-      
-      // In a real application, you would send an email here
-      // For now, we'll just log the message and return success
-      console.log("Contact form submission:", {
-        firstName,
-        lastName,
-        email,
-        subject,
-        message,
-        timestamp: new Date().toISOString()
+      console.log("Contact form submission saved:", {
+        id: savedMessage.id,
+        firstName: savedMessage.firstName,
+        lastName: savedMessage.lastName,
+        email: savedMessage.email,
+        subject: savedMessage.subject,
+        timestamp: savedMessage.createdAt
       });
       
       res.json({ 
         message: "Message sent successfully",
-        success: true 
+        success: true,
+        messageId: savedMessage.id
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error processing contact form:", error);
+      
+      // Handle validation errors
+      if (error?.issues) {
+        return res.status(400).json({ 
+          message: "Validation error",
+          errors: error.issues 
+        });
+      }
+      
       res.status(500).json({ 
         message: "Internal server error" 
       });
@@ -70,6 +69,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error serving resume:", error);
       res.status(500).json({
         message: "Internal server error"
+      });
+    }
+  });
+
+  // Get contact messages (for admin purposes)
+  app.get("/api/contact/messages", async (req, res) => {
+    try {
+      const messages = await storage.getContactMessages();
+      res.json({ 
+        messages,
+        total: messages.length 
+      });
+    } catch (error) {
+      console.error("Error retrieving contact messages:", error);
+      res.status(500).json({ 
+        message: "Internal server error" 
       });
     }
   });

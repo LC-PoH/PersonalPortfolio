@@ -19,7 +19,7 @@ This is a modern full-stack web application built as a professional portfolio fo
 - **Runtime**: Node.js with Express.js
 - **Language**: TypeScript with ESM modules
 - **Database**: PostgreSQL with Drizzle ORM
-- **Database Provider**: Neon Database (serverless PostgreSQL)
+- **Database Provider**: PostgreSQL (configured via environment variables)
 - **Session Management**: Express sessions with PostgreSQL store
 - **Development**: TSX for TypeScript execution in development
 
@@ -27,7 +27,10 @@ This is a modern full-stack web application built as a professional portfolio fo
 - **ORM**: Drizzle ORM with PostgreSQL dialect
 - **Schema**: Type-safe database schema with Zod validation
 - **Migrations**: Drizzle Kit for database migrations
-- **Connection**: Neon serverless database connection
+- **Connection**: PostgreSQL with connection pooling
+- **Tables**: 
+  - `users`: User authentication and profiles
+  - `contact_messages`: Contact form submissions with timestamps
 
 ## Key Components
 
@@ -72,9 +75,9 @@ This is a modern full-stack web application built as a professional portfolio fo
 1. User fills out contact form with validation
 2. Form data is validated on client-side using React Hook Form
 3. Validated data is sent to `/api/contact` endpoint
-4. Server validates required fields and email format
-5. Contact information is logged (ready for email integration)
-6. Success/error response is sent back to client
+4. Server validates data using Zod schema validation
+5. Contact message is saved to PostgreSQL database
+6. Success response with message ID is sent back to client
 7. Toast notification displays result to user
 
 ### Resume Download
@@ -133,6 +136,7 @@ This is a modern full-stack web application built as a professional portfolio fo
 ## Changelog
 - July 06, 2025. Initial setup
 - July 06, 2025. Added interactive certificate viewing with modal dialogs and downloadable certificates
+- July 06, 2025. Integrated PostgreSQL database with contact message storage and proper schema validation
 
 ## User Preferences
 
